@@ -1,12 +1,17 @@
 package com.example.number;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private TextView number;
+    int secret = new Random().nextInt(10)+1;
+    private ImageView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +29,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         number = findViewById(R.id.num);
-
+        result = findViewById(R.id.result_image);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int n =Integer.parseInt(number.getText().toString())+1;
                 number.setText(Integer.toString(n));
+                result.setAlpha(1.0f);
+                result.setVisibility(View.VISIBLE);
+                if(n == secret) {
+                    Toast.makeText(MainActivity.this, "HaHa", Toast.LENGTH_SHORT).show();
+                    result.setImageResource(R.drawable.haha);
+                }else {
+                    result.setImageResource(R.drawable.smile);
+                    result.animate().alpha(0.0f).setDuration(3000);
+                }
             }
         });
     }
